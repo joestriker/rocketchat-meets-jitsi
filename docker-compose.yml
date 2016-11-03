@@ -24,7 +24,7 @@ hubot:
 		- ROCKETCHAT_ROOM=GENERAL
 		- ROCKETCHAT_USER=Botname
 		- ROCKETCHAT_PASSWORD=BotPassw0rd
-		- BOT_NAME=Botname
+        - BOT_NAME=Botname
 		- EXTERNAL_SCRIPTS=hubot-help,hubot-seen,hubot-links,hubot-greetings
 	links:
 		- rocketchat:rocketchat
