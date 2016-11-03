@@ -39,4 +39,4 @@ jitsi:
 		JITSI_DOMAIN: "example.com"
 		JITSI_HOST: "172.17.0.1"
 	ports:
-		- 3002:
+		- 3002:443
