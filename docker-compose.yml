@@ -1,1 +1,42 @@
+db:
+	image: mongo
+	volumes:
+		- ./data/runtime/db:/data/db
+		- ./data/dump:/dump
+	command: mongod --smallfiles
 
+rocketchat:
+	image: rocketchat/rocket.chat:latest
+	environment:
+		- MONGO_URL=mongodb://db:27017/rocketchat
+		- ROOT_URL=https://example.com
+		- Accounts_UseDNSDomainCheck=True
+	links:
+		- db:db
+		- jitsi:jitsi
+	ports:
+		- 3000:3000
+
+hubot:
+	image: rocketchat/hubot-rocketchat:v0.1.4
+	environment:
+		- ROCKETCHAT_URL=165.114.165.21:3000
+		- ROCKETCHAT_ROOM=GENERAL
+		- ROCKETCHAT_USER=Botname
+		- ROCKETCHAT_PASSWORD=BotPassw0rd
+		- BOT_NAME=Botname
+		- EXTERNAL_SCRIPTS=hubot-help,hubot-seen,hubot-links,hubot-greetings
+	links:
+		- rocketchat:rocketchat
+	# this is used to expose the hubot port for notifications on the host on port 3001, e.g. for hubot-jenkins-notifier
+	ports:
+    - 3001:8080
+
+jitsi:
+	image: joestriker/rocketchat-meets-jitsi:stable
+	environment:
+		JITSI_SECRET: "not-really-secret"
+		JITSI_DOMAIN: "example.com"
+		JITSI_HOST: "172.17.0.1"
+	ports:
+		- 3002:
